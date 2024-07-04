@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>廠商有效日期</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin-top: 50px;
+        }
+        button {
+            margin: 10px;
+            padding: 10px 20px;
+            font-size: 16px;
+        }
+        .result {
+            margin-top: 20px;
+            font-size: 18px;
+            font-weight: bold;
+            color: red;
+        }
+    </style>
+</head>
+<body>
+    <h1>廠商有效日期</h1>
+    <button onclick="showDate('A 廠商', 3, 20)">A 廠商</button>
+    <button onclick="showDate('B 廠商', 6, 15)">B 廠商</button>
+    <button onclick="showDate('C 廠商', 8, 3)">C 廠商</button>
+
+    <div id="result" class="result"></div>
+
+    <script>
+        function dateAdd(date, months, days) {
+            date.setMonth(date.getMonth() + months);
+            date.setDate(date.getDate() + days);
+            return date;
+        }
+
+        function formatDate(date) {
+            const year = date.getFullYear();
+            const month = (date.getMonth() + 1).toString().padStart(2, '0');
+            const day = date.getDate().toString().padStart(2, '0');
+            return `${year}.${month}.${day}`;
+        }
+
+        function showDate(vendor, months, days) {
+            const now = new Date();
+            const validDate = dateAdd(now, months, days);
+            const formattedDate = formatDate(validDate);
+            document.getElementById('result').textContent = `${vendor} 有效日期：${formattedDate}`;
+        }
+    </script>
+</body>
+</html>
