@@ -21,17 +21,35 @@
             font-weight: bold;
             color: red;
         }
+        .date-picker {
+            margin: 20px;
+            font-size: 16px;
+        }
     </style>
 </head>
 <body>
     <h1>廠商有效日期</h1>
-    <button onclick="showDate('A 廠商', 3, 20)">A 廠商</button>
-    <button onclick="showDate('B 廠商', 6, 15)">B 廠商</button>
-    <button onclick="showDate('C 廠商', 8, 3)">C 廠商</button>
+    <div>
+        <label for="manufactureDate">製造日期：</label>
+        <input type="date" id="manufactureDate" class="date-picker">
+    </div>
+    <button onclick="showDate('7-11 鹽酥冬筍餅', 8, -5)">7-11 鹽酥冬筍餅</button>
+    <button onclick="showDate('8 個月', 8, 0)">8 個月</button>
+    <button onclick="showDate('9 個月', 9, 0)">9 個月</button>
+    <button onclick="showDate('10 個月', 10, 0)">10 個月</button>
+    <button onclick="showDate('1 年', 12, 0)">1 年</button>
 
     <div id="result" class="result"></div>
 
     <script>
+        // 禁用今天以前的日期
+        document.addEventListener('DOMContentLoaded', (event) => {
+            const manufactureDate = document.getElementById('manufactureDate');
+            const today = new Date().toISOString().split('T')[0];
+            manufactureDate.setAttribute('min', today);
+            manufactureDate.value = today; // 預設為當日日期
+        });
+
         function dateAdd(date, months, days) {
             date.setMonth(date.getMonth() + months);
             date.setDate(date.getDate() + days);
@@ -46,8 +64,9 @@
         }
 
         function showDate(vendor, months, days) {
-            const now = new Date();
-            const validDate = dateAdd(now, months, days);
+            const manufactureDateInput = document.getElementById('manufactureDate').value;
+            const manufactureDate = new Date(manufactureDateInput);
+            const validDate = dateAdd(manufactureDate, months, days);
             const formattedDate = formatDate(validDate);
             document.getElementById('result').textContent = `${vendor} 有效日期：${formattedDate}`;
         }
